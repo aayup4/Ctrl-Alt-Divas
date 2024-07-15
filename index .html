@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outfit Recommender</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; /* Light gray background */
+            color: #333; /* Dark gray text color */
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fda9b8; /* Light pink background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(8, 8, 8, 0.1);
+        }
+        h1 {
+            margin-top: 20px;
+            font-size: 3em;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        form input[type="file"] {
+            margin-right: 10px;
+        }
+        form button {
+            padding: 8px 20px;
+            background-color: #C9184A; /* Dark pink background */
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #ccc; /* Light gray border */
+        }
+        .selected-bottom {
+            margin-bottom: 20px;
+        }
+        .selected-bottom img {
+            max-width: 300px;
+            display: block;
+            margin: 0 auto;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .recommendation-section {
+            margin-bottom: 40px;
+        }
+        .recommendation-section h2 {
+            margin-bottom: 10px;
+        }
+        .recommendation-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .recommendation-options select {
+            padding: 5px;
+            font-size: 14px;
+            width: 100px; /* Adjusted width for select boxes */
+        }
+        .recommendation-carousel {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            background-color: #fff; /* White background for carousel */
+            padding: 10px; /* Added padding */
+        }
+        .recommendation-carousel img {
+            max-width: 200px;
+            height: auto;
+            margin-right: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Outfit Recommender</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="bottom" accept=".jpg, .jpeg, .png">
+            <button type="submit">Get Recommendations</button>
+        </form>
+
+        <hr>
+
+        <div class="recommendation-section">
+            <div class="recommendation-options">
+                <h2>Recommended Jewellery</h2>
+            </div>
+            <div class="recommendation-carousel" id="jewellery-carousel">
+                {% if recommended_jewellery %}
+                    {% for jewellery_img in recommended_jewellery %}
+                        <img src="{{ url_for('static', filename=jewellery_img.replace('C:/Users/Yashvi/Hackerramp/static/', '').replace('\\', '/')) }}" alt="Recommended Jewellery">
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="recommendation-section">
+            <div class="recommendation-options">
+                <h2>Recommended Tops</h2>
+                <select name="tops_type">
+                    <option value="">Any</option>
+                    <option value="Casual">Casual</option>
+                    <option value="Formal">Formal</option>
+                    <option value="Party">Party</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <div class="recommendation-carousel" id="tops-carousel">
+                {% if recommended_tops %}
+                    {% for top_img in recommended_tops %}
+                        <img src="{{ url_for('static', filename=top_img.replace('C:/Users/Yashvi/Hackerramp/static/', '').replace('\\', '/')) }}" alt="Recommended Top">
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if selected_bottom %}
+            <div class="selected-bottom">
+                <h2>Selected Bottom Wear</h2>
+                <img src="{{ url_for('static', filename=selected_bottom.replace('C:/Users/Yashvi/Hackerramp/static/', '').replace('\\', '/')) }}" alt="Selected Bottom">
+            </div>
+        {% endif %}
+
+        <div class="recommendation-section">
+            <div class="recommendation-options">
+                <h2>Recommended Shoes</h2>
+                <select name="shoes_type">
+                    <option value="">Any</option>
+                    <option value="Heels">Heels</option>
+                    <option value="Flats">Flats</option>
+                    <option value="Casual">Shoes</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <div class="recommendation-carousel" id="shoes-carousel">
+                {% if recommended_shoes %}
+                    {% for shoe_img in recommended_shoes %}
+                        <img src="{{ url_for('static', filename=shoe_img.replace('C:/Users/Yashvi/Hackerramp/static/', '').replace('\\', '/')) }}" alt="Recommended Shoe">
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
